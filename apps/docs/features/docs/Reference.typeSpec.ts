@@ -244,6 +244,9 @@ function parseModInternal(
       parseConstructor(node, map, currentPath, res)
     case 'Method':
       parseMethod(node, map, currentPath, res)
+    case 'Interface':
+      updatedPath = [...currentPath, node.name]
+      node.children?.forEach((child: any) => parseModInternal(child, map, updatedPath, res))
     case 'Property':
     case 'Reference':
     default:
