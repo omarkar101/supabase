@@ -284,16 +284,13 @@ function parseConstructor(
   const signature = node.signatures[0]
   if (!signature) return
 
-  const { params, ret } = parseSignature(signature, map)
+  const { params, ret, comment } = parseSignature(signature, map)
 
   const types: MethodTypes = {
     name: $ref,
     params,
     ret,
-  }
-
-  if (signature.comment) {
-    types.comment = signature.comment
+    comment,
   }
 
   res.methods.set($ref, types)
@@ -556,12 +553,13 @@ function parseTypeLiteral(type: any, map: Map<number, any>): Type {
   }
 
   if ('signatures' in type.declaration && type.declaration.signatures[0]) {
-    const { params, ret } = parseSignature(type.declaration.signatures[0], map)
+    const { params, ret, comment } = parseSignature(type.declaration.signatures[0], map)
     return {
       name,
       type: 'function',
       params,
       ret,
+      comment,
     }
   }
 
